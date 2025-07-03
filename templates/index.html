@@ -1,56 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>GitHub Webhook Events</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 2rem;
-      background-color: #f4f4f4;
-      color: #333;
-    }
-    h1 {
-      color: #222;
-    }
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
-    li {
-      background: #fff;
-      margin-bottom: 10px;
-      padding: 10px 15px;
-      border-left: 4px solid #007bff;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-  </style>
+    <title>Webhook Events</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            background: #fff;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-left: 4px solid #007BFF;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
 <body>
-  <h1>📡 GitHub Webhook Events</h1>
-  <ul id="event-list">
-    <li>Loading events...</li>
-  </ul>
-
-  <script>
-    async function fetchEvents() {
-      try {
-        const response = await fetch('/events');
-        const data = await response.json();
-        const list = document.getElementById('event-list');
-        list.innerHTML = '';
-        data.forEach(event => {
-          const li = document.createElement('li');
-          li.textContent = event;
-          list.appendChild(li);
-        });
-      } catch (error) {
-        console.error("Error fetching events:", error);
-      }
-    }
-
-    fetchEvents();
-    setInterval(fetchEvents, 15000); // refresh every 15 seconds
-  </script>
+    <h1>Latest GitHub Webhook Events</h1>
+    {% if events %}
+        <ul>
+            {% for event in events %}
+                <li><strong>{{ event.event_type }}</strong> - {{ event.timestamp }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No events received yet.</p>
+    {% endif %}
 </body>
 </html>
+ 
